@@ -1,3 +1,67 @@
+<script lang="ts">
+import {
+  defineComponent,
+  reactive,
+  toRefs,
+  useContext,
+} from '@nuxtjs/composition-api';
+import HideShowPassword from '@/components/elements/buttons/HideShowPassword/HideShowPassword.vue';
+import BaseInput from '@/components/elements/BaseInput.vue';
+import Card from '@/components/elements/cards/Card.vue';
+import CardBody from '@/components/elements/cards/CardBody.vue';
+import CardHeader from '@/components/elements/cards/CardHeader.vue';
+import BaseButton from '@/components/elements/buttons/BaseButton.vue';
+import CloseButton from '@/components/elements/buttons/CloseButton.vue';
+
+export default defineComponent({
+  components: {
+    BaseButton,
+    BaseInput,
+    Card,
+    CardBody,
+    CardHeader,
+    CloseButton,
+    HideShowPassword,
+  },
+  props: {
+    modal: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+  setup(_, { emit }) {
+    const { $auth } = useContext();
+
+    const state = reactive({
+      email: '',
+      password: '',
+      showPassword: false,
+    });
+
+    async function login() {
+      await $auth.loginWith('local', {
+        data: {
+          email: state.email,
+          password: state.password,
+        },
+      });
+
+      state.email = '';
+      state.password = '';
+      state.showPassword = false;
+
+      emit('close');
+    }
+
+    return {
+      ...toRefs(state),
+      login,
+    };
+  },
+});
+</scrip>
+
 <template>
   <Card id="loginCard" data-testid="login-card" class="login-card">
     <CardHeader class="login-card__header">
@@ -63,70 +127,6 @@
     </CardBody>
   </Card>
 </template>
-
-<script lang="ts">
-import {
-  defineComponent,
-  reactive,
-  toRefs,
-  useContext,
-} from '@nuxtjs/composition-api';
-import HideShowPassword from '@/components/elements/buttons/HideShowPassword/HideShowPassword.vue';
-import BaseInput from '@/components/elements/BaseInput.vue';
-import Card from '@/components/elements/cards/Card.vue';
-import CardBody from '@/components/elements/cards/CardBody.vue';
-import CardHeader from '@/components/elements/cards/CardHeader.vue';
-import BaseButton from '@/components/elements/buttons/BaseButton.vue';
-import CloseButton from '@/components/elements/buttons/CloseButton.vue';
-
-export default defineComponent({
-  components: {
-    BaseButton,
-    BaseInput,
-    Card,
-    CardBody,
-    CardHeader,
-    CloseButton,
-    HideShowPassword,
-  },
-  props: {
-    modal: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
-  setup(_, { emit }) {
-    const { $auth } = useContext();
-
-    const state = reactive({
-      email: '',
-      password: '',
-      showPassword: false,
-    });
-
-    async function login() {
-      await $auth.loginWith('local', {
-        data: {
-          email: state.email,
-          password: state.password,
-        },
-      });
-
-      state.email = '';
-      state.password = '';
-      state.showPassword = false;
-
-      emit('close');
-    }
-
-    return {
-      ...toRefs(state),
-      login,
-    };
-  },
-});
-</script>
 
 <style lang="postcss" scoped>
 .login-card {

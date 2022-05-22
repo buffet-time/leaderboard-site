@@ -51,7 +51,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="postcss">
 .language-selector {
   @apply bg-white border border-current rounded;
   @apply flex items-center px-2 py-2 relative;

@@ -1,3 +1,7 @@
+<script setup lang="ts">
+/** nothing needed here for now? */
+</script>
+
 <template>
   <div class="site-footer">
     <p class="site-footer__copyright">Copyright 2021</p>
@@ -7,18 +11,6 @@
     />
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api';
-import LanguageSelector from '@/components/blocks/SiteFooter/LanguageSelector/LanguageSelector.vue';
-
-export default defineComponent({
-  name: 'SiteFooter',
-  components: {
-    LanguageSelector,
-  },
-});
-</script>
 
 <style lang="postcss" scoped>
 .site-footer {
